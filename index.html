@@ -542,6 +542,8 @@
 
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
 <div class="app-wrapper">
@@ -575,6 +577,7 @@
       </div>
       <div style="flex:1;"></div>
       <span class="hiba-badge">v8</span>
+      <span id="sync-badge" style="font-size:10px;padding:2px 8px;border-radius:20px;background:#EAF3DE;color:#3D8B1F;font-family:Arial,sans-serif;white-space:nowrap;">⟳</span>
     </div>
     <div class="pc-body" id="pc-body">
       <!-- Sidebar -->
@@ -1240,6 +1243,8 @@
 
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
 <div class="app-wrapper">
@@ -3068,6 +3073,100 @@ function generatePdf(){
 })();
 
 setTimeout(mobUpdateUI,80);
+
+
+
+// ═══════════════════════════════════════════════════════
+// FIREBASE ECHTZEIT-SYNC
+// ═══════════════════════════════════════════════════════
+
+// !! HIER DEINE FIREBASE-KONFIGURATION EINTRAGEN !!
+var firebaseConfig = {
+  apiKey:            "DEIN_API_KEY",
+  authDomain:        "DEIN_PROJEKT.firebaseapp.com",
+  databaseURL:       "https://DEIN_PROJEKT-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId:         "DEIN_PROJEKT",
+  storageBucket:     "DEIN_PROJEKT.appspot.com",
+  messagingSenderId: "DEINE_SENDER_ID",
+  appId:             "DEINE_APP_ID"
+};
+
+var _fbReady = false;
+var _fbRef = null;
+var _fbSuppressUpdate = false;
+
+function initFirebase(){
+  try {
+    firebase.initializeApp(firebaseConfig);
+    _fbRef = firebase.database().ref('hiba_data');
+
+    // Echtzeit-Listener: Änderungen von anderen Geräten empfangen
+    _fbRef.on('value', function(snapshot){
+      if(_fbSuppressUpdate) return;
+      var data = snapshot.val();
+      if(!data) return;
+      try {
+        if(data.baustellen) baustellen = JSON.parse(data.baustellen);
+        if(data.nextBId)    nextBId    = parseInt(data.nextBId);
+        if(data.nextSId)    nextSId    = parseInt(data.nextSId);
+        migrateData();
+        renderSidebar();
+        renderMain();
+        showSyncBadge('✓ Synchronisiert');
+      } catch(e){ console.warn('Sync-Fehler:', e); }
+    });
+
+    _fbReady = true;
+    showSyncBadge('✓ Verbunden');
+  } catch(e){
+    console.warn('Firebase nicht konfiguriert:', e);
+    showSyncBadge('⚠ Offline-Modus');
+  }
+}
+
+// Daten zu Firebase senden (überschreibt saveData)
+var _saveTimer = null;
+function saveData(){
+  // localStorage als Fallback
+  try {
+    localStorage.setItem('hiba_baustellen', JSON.stringify(baustellen));
+    localStorage.setItem('hiba_nextBId', nextBId);
+    localStorage.setItem('hiba_nextSId', nextSId);
+  } catch(e){}
+
+  // Firebase sync (debounced 500ms)
+  if(_fbReady && _fbRef){
+    clearTimeout(_saveTimer);
+    _saveTimer = setTimeout(function(){
+      _fbSuppressUpdate = true;
+      _fbRef.set({
+        baustellen: JSON.stringify(baustellen),
+        nextBId:    nextBId,
+        nextSId:    nextSId,
+        updated:    Date.now()
+      }).then(function(){
+        _fbSuppressUpdate = false;
+        showSyncBadge('✓ Gespeichert');
+      }).catch(function(e){
+        _fbSuppressUpdate = false;
+        showSyncBadge('⚠ Sync-Fehler');
+        console.warn('Firebase Fehler:', e);
+      });
+    }, 500);
+  }
+}
+
+// Sync-Badge in Topbar anzeigen
+function showSyncBadge(text){
+  var badge = document.getElementById('sync-badge');
+  if(!badge) return;
+  badge.textContent = text;
+  badge.style.background = text.startsWith('✓') ? '#EAF3DE' : '#FEF3E2';
+  badge.style.color       = text.startsWith('✓') ? '#3D8B1F' : '#BA7517';
+}
+
+// Firebase nach dem Laden initialisieren
+setTimeout(initFirebase, 500);
 
 
 </script>

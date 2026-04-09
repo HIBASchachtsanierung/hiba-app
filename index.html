@@ -1808,14 +1808,13 @@ function renderMain(){
             <td style="white-space:nowrap;">
               ${(()=>{const v=item.verkehr&&typeof item.verkehr==='object'?item.verkehr:{};const tags=[];if(v.biv1&&v.biv1!=='0')tags.push('<span style="background:#EAF3DE;color:#3D8B1F;padding:1px 5px;border-radius:4px;font-size:10px;font-weight:700;">✕ B IV/1</span>');if(v.biv2&&v.biv2!=='0')tags.push('<span style="background:#EAF3DE;color:#3D8B1F;padding:1px 5px;border-radius:4px;font-size:10px;font-weight:700;">✕ B IV/2</span>');if(v.ang&&v.ang!=='0')tags.push('<span style="background:#EAF3DE;color:#3D8B1F;padding:1px 5px;border-radius:4px;font-size:10px;font-weight:700;">✕ Ang.</span>');return tags.join(' ')||'–';})()}
             </td>
-            <td style="text-align:center;">
-              <span style="display:inline-block;width:12px;height:12px;border-radius:50%;
-                background:${item.status==='aktuell'?'#CC0000':item.status==='fertig'?'#3D8B1F':item.status==='zurueck'?'#BA7517':'#185FA5'};
-                margin-bottom:2px;"></span><br>
-              <span style="font-size:10px;font-weight:700;
-                color:${item.status==='aktuell'?'#CC0000':item.status==='fertig'?'#3D8B1F':item.status==='zurueck'?'#BA7517':'#185FA5'};">
-                ${item.status==='aktuell'?'Aktuell':item.status==='fertig'?'Fertig':item.status==='zurueck'?'Zurückgestellt':'Abgerechnet'}
-              </span>
+            <td onclick="event.stopPropagation()">
+              <select class="status-select status-${item.status}" onchange="changeStatus(${b.id},${item.id},this.value,this)" style="font-size:11px;padding:3px 5px;border-radius:14px;border:none;font-weight:700;cursor:pointer;">
+                <option value="aktuell"${item.status==='aktuell'?' selected':''}>Aktuell</option>
+                <option value="fertig"${item.status==='fertig'?' selected':''}>Fertig</option>
+                <option value="zurueck"${item.status==='zurueck'?' selected':''}>Zurückgestellt</option>
+                <option value="abger"${item.status==='abger'?' selected':''}>Abgerechnet</option>
+              </select>
             </td>
             <td style="white-space:nowrap;">
               <button class="btn-del" style="margin-left:4px;" onclick="delSchaden(${b.id},${item.id})">Löschen</button>

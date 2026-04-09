@@ -540,6 +540,43 @@
   .hiba-badge { color: #fff !important; }
   thead th, .ringe-header th { color: #fff !important; }
 
+
+  /* ── Fotos responsive auf Mobile ── */
+  @media (hover:none),(pointer:coarse) {
+    /* Foto-Thumbnails größer und responsive */
+    .foto-thumb {
+      width: calc(33vw - 12px) !important;
+      height: calc(33vw - 12px) !important;
+      max-width: 140px !important;
+      max-height: 140px !important;
+    }
+    .foto-thumb img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+    .foto-add-btn {
+      width: calc(33vw - 12px) !important;
+      height: calc(33vw - 12px) !important;
+      max-width: 140px !important;
+      max-height: 140px !important;
+    }
+    /* Foto-Grid responsive */
+    .foto-grid {
+      display: grid !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 6px !important;
+    }
+    /* Lightbox Bild passt ans Gerät */
+    .lightbox-img, #lightbox-img {
+      max-width: 100vw !important;
+      max-height: 80vh !important;
+      width: auto !important;
+      height: auto !important;
+      object-fit: contain !important;
+    }
+  }
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -573,8 +610,7 @@
         Zurück
       </button>
       <div style="flex:1;"></div>
-      <span class="hiba-badge">v8</span>
-      <span id="sync-badge" style="font-size:10px;padding:2px 8px;border-radius:20px;background:#f5f5f5;color:#888;font-family:Arial,sans-serif;white-space:nowrap;margin-left:4px;">⟳ Verbinde...</span>
+      
     </div>
     <div class="pc-body" id="pc-body">
       <!-- Sidebar -->
@@ -1271,7 +1307,7 @@
         Zurück
       </button>
       <div style="flex:1;"></div>
-      <span class="hiba-badge">v8</span>
+      
     </div>
     <div class="pc-body" id="pc-body">
       <!-- Sidebar -->

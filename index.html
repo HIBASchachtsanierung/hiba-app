@@ -455,8 +455,7 @@
   .mob-dbody{flex:1;overflow-y:auto;padding:8px;}
   /* Desktop-only hidden on touch */
   @media(hover:none),(pointer:coarse){.mob-desktop-only{display:none!important;}.sidebar-desktop-only{display:none!important;}}
-  /* PDF btn */
-  #btn-pdf-static{display:none;padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:Arial,sans-serif;color:#CC0000;margin-left:8px;}
+
   /* Print */
   @media print{*{visibility:hidden!important;}#pdf-print-area,#pdf-print-area *{visibility:visible!important;}#pdf-print-area{position:fixed!important;left:0!important;top:0!important;width:100%!important;display:block!important;}@page{margin:12mm;size:A4 portrait;}}
 
@@ -624,7 +623,6 @@
         <div class="toolbar">
           <div class="results-info" id="results-info"></div>
           <button class="btn-neu" id="btn-aktion" style="display:none"></button>
-          <button id="btn-pdf-static" onclick="openPdfExportModal(curBId)">🖨 PDF</button>
         </div>
         <div id="main-content"></div>
       </div>
@@ -650,47 +648,7 @@
 <div id="mob-overlay" onclick="mobCloseDrawer()"></div>
 <button id="mob-fab" onclick="mobFab()">+</button>
 
-<!-- PDF Modal -->
-<div class="modal-overlay" id="modal-pdf-export">
-  <div style="background:#fff;border-radius:12px;padding:24px;width:520px;max-width:96vw;max-height:88vh;overflow-y:auto;border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,0.18);">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-      <div style="font-size:16px;font-weight:700;font-family:Arial,sans-serif;">PDF Export – <span id="pdf-export-project-name"></span></div>
-      <button class="preview-close" onclick="closePdfExportModal()">×</button>
-    </div>
-    <div style="background:#EAF3DE;border:1px solid #3D8B1F;border-radius:8px;padding:10px 14px;font-size:12px;color:#255E10;font-family:Arial,sans-serif;margin-bottom:14px;">✓ Nur <strong>fertige Schadensstellen</strong> werden gedruckt – eine pro Seite.</div>
-    <div style="display:flex;gap:8px;margin-bottom:10px;"><button onclick="pdfSelAll(true)" style="padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:#fff;font-size:11px;cursor:pointer;font-family:Arial,sans-serif;">Alle auswählen</button><button onclick="pdfSelAll(false)" style="padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:#fff;font-size:11px;cursor:pointer;font-family:Arial,sans-serif;">Alle abwählen</button></div>
 
-    <div style="font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:0.05em;margin:10px 0 6px;font-family:Arial,sans-serif;">Grunddaten</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;">
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-adresse" checked> Adresse</label>
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-schacht" checked> Schachtnummer</label>
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-abdeckung" checked> Schachtabdeckung</label>
-    </div>
-
-    <div style="font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:0.05em;margin:10px 0 6px;font-family:Arial,sans-serif;">Stückzahlen</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;">
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-verkehr" checked> Verkehrssicherung</label>
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-bohr" checked> Bohrdurchmesser</label>
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-typ" checked> Typ Schachtabdeckung</label>
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-ringe" checked> Ringe</label>
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-moertel" checked> Mörtel</label>
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-stunden" checked> Stundenlohnarbeiten</label>
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-schmutz" checked> Schmutzfänger</label>
-    </div>
-
-    <div style="font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:0.05em;margin:10px 0 6px;font-family:Arial,sans-serif;">Medien</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px;">
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-fotos" checked> 📷 Fotos</label>
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-pdfs" checked> 📄 Dokumente</label>
-    </div>
-
-    <div style="display:flex;gap:10px;justify-content:flex-end;">
-      <button class="btn-cancel-m" onclick="closePdfExportModal()">Abbrechen</button>
-      <button onclick="generatePdf()" style="padding:10px 22px;border-radius:8px;background:#CC0000;color:#fff;font-size:13px;font-weight:700;border:none;cursor:pointer;font-family:Arial,sans-serif;">🖨 PDF erstellen</button>
-    </div>
-  </div>
-</div>
-<div id="pdf-print-area" style="display:none;font-family:Arial,sans-serif;color:#000;"></div>
 
 <div id="toast" class="toast"></div>
 
@@ -734,7 +692,7 @@
     </div>
     <div class="form-row full"><div class="form-group"><div class="form-label">Schachtnummer</div><input class="form-input" id="f-schacht" type="text" placeholder="z.B. S-2024-001"></div></div>
     <div class="form-divider">Schadensdaten</div>
-    <div class="form-row full"><div class="form-group"><div class="form-label">Schachtabdeckung</div><input class="form-input" id="f-abdeckung" type="text" placeholder="z.B. DN400, Gusseisen defekt"></div></div>
+    <div class="form-row full"><div class="form-group"><div class="form-label">Schachtabdeckung</div><input class="form-input" id="f-abdeckung" type="text" placeholder=""></div></div>
     <div class="form-row full"><div class="form-group"><div class="form-label">Status</div><select class="form-select" id="f-status"><option value="aktuell">Aktuelle Schadensstelle</option><option value="fertig">Fertige Schadensstelle</option><option value="zurueck">Zurückgestellte Schadensstelle</option><option value="abger">Abgerechnete Schadensstelle</option></select></div></div>
     <!-- Collapsible detail section -->
     <div style="border:1px solid var(--border);border-radius:8px;margin-top:4px;overflow:hidden;">
@@ -1271,8 +1229,7 @@
   .mob-dbody{flex:1;overflow-y:auto;padding:8px;}
   /* Desktop-only hidden on touch */
   @media(hover:none),(pointer:coarse){.mob-desktop-only{display:none!important;}.sidebar-desktop-only{display:none!important;}}
-  /* PDF btn */
-  #btn-pdf-static{display:none;padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:Arial,sans-serif;color:#CC0000;margin-left:8px;}
+
   /* Print */
   @media print{*{visibility:hidden!important;}#pdf-print-area,#pdf-print-area *{visibility:visible!important;}#pdf-print-area{position:fixed!important;left:0!important;top:0!important;width:100%!important;display:block!important;}@page{margin:12mm;size:A4 portrait;}}
 
@@ -1322,7 +1279,6 @@
         <div class="toolbar">
           <div class="results-info" id="results-info"></div>
           <button class="btn-neu" id="btn-aktion" style="display:none"></button>
-          <button id="btn-pdf-static" onclick="openPdfExportModal(curBId)">🖨 PDF</button>
         </div>
         <div id="main-content"></div>
       </div>
@@ -1348,47 +1304,7 @@
 <div id="mob-overlay" onclick="mobCloseDrawer()"></div>
 <button id="mob-fab" onclick="mobFab()">+</button>
 
-<!-- PDF Modal -->
-<div class="modal-overlay" id="modal-pdf-export">
-  <div style="background:#fff;border-radius:12px;padding:24px;width:520px;max-width:96vw;max-height:88vh;overflow-y:auto;border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,0.18);">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-      <div style="font-size:16px;font-weight:700;font-family:Arial,sans-serif;">PDF Export – <span id="pdf-export-project-name"></span></div>
-      <button class="preview-close" onclick="closePdfExportModal()">×</button>
-    </div>
-    <div style="background:#EAF3DE;border:1px solid #3D8B1F;border-radius:8px;padding:10px 14px;font-size:12px;color:#255E10;font-family:Arial,sans-serif;margin-bottom:14px;">✓ Nur <strong>fertige Schadensstellen</strong> werden gedruckt – eine pro Seite.</div>
-    <div style="display:flex;gap:8px;margin-bottom:10px;"><button onclick="pdfSelAll(true)" style="padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:#fff;font-size:11px;cursor:pointer;font-family:Arial,sans-serif;">Alle auswählen</button><button onclick="pdfSelAll(false)" style="padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:#fff;font-size:11px;cursor:pointer;font-family:Arial,sans-serif;">Alle abwählen</button></div>
 
-    <div style="font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:0.05em;margin:10px 0 6px;font-family:Arial,sans-serif;">Grunddaten</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;">
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-adresse" checked> Adresse</label>
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-schacht" checked> Schachtnummer</label>
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-abdeckung" checked> Schachtabdeckung</label>
-    </div>
-
-    <div style="font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:0.05em;margin:10px 0 6px;font-family:Arial,sans-serif;">Stückzahlen</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;">
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-verkehr" checked> Verkehrssicherung</label>
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-bohr" checked> Bohrdurchmesser</label>
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-typ" checked> Typ Schachtabdeckung</label>
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-ringe" checked> Ringe</label>
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-moertel" checked> Mörtel</label>
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-stunden" checked> Stundenlohnarbeiten</label>
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-schmutz" checked> Schmutzfänger</label>
-    </div>
-
-    <div style="font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:0.05em;margin:10px 0 6px;font-family:Arial,sans-serif;">Medien</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px;">
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-fotos" checked> 📷 Fotos</label>
-      <label style="display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:Arial,sans-serif;cursor:pointer;"><input type="checkbox" id="pf-pdfs" checked> 📄 Dokumente</label>
-    </div>
-
-    <div style="display:flex;gap:10px;justify-content:flex-end;">
-      <button class="btn-cancel-m" onclick="closePdfExportModal()">Abbrechen</button>
-      <button onclick="generatePdf()" style="padding:10px 22px;border-radius:8px;background:#CC0000;color:#fff;font-size:13px;font-weight:700;border:none;cursor:pointer;font-family:Arial,sans-serif;">🖨 PDF erstellen</button>
-    </div>
-  </div>
-</div>
-<div id="pdf-print-area" style="display:none;font-family:Arial,sans-serif;color:#000;"></div>
 
 <div id="toast" class="toast"></div>
 
@@ -1432,7 +1348,7 @@
     </div>
     <div class="form-row full"><div class="form-group"><div class="form-label">Schachtnummer</div><input class="form-input" id="f-schacht" type="text" placeholder="z.B. S-2024-001"></div></div>
     <div class="form-divider">Schadensdaten</div>
-    <div class="form-row full"><div class="form-group"><div class="form-label">Schachtabdeckung</div><input class="form-input" id="f-abdeckung" type="text" placeholder="z.B. DN400, Gusseisen defekt"></div></div>
+    <div class="form-row full"><div class="form-group"><div class="form-label">Schachtabdeckung</div><input class="form-input" id="f-abdeckung" type="text" placeholder=""></div></div>
     <div class="form-row full"><div class="form-group"><div class="form-label">Status</div><select class="form-select" id="f-status"><option value="aktuell">Aktuelle Schadensstelle</option><option value="fertig">Fertige Schadensstelle</option><option value="zurueck">Zurückgestellte Schadensstelle</option><option value="abger">Abgerechnete Schadensstelle</option></select></div></div>
     <!-- Collapsible detail section -->
     <div style="border:1px solid var(--border);border-radius:8px;margin-top:4px;overflow:hidden;">
@@ -1601,18 +1517,7 @@ const CATS=[
 ];
 
 // ── Datenpersistenz ──────────────────────────────────────────────
-var _defaultBaustellen = [
-  {id:1,kunde:'Mustermann GmbH',ort:'Wardenburg',standort:'wa',schaden:[
-    {id:1,adresse:'Hauptstr. 12',schacht:'S-2024-001',abdeckung:'DN400 Gusseisen defekt',status:'aktuell',ringe:{r4:'',r6:'',r8:'',r10:''},moertel:'',bohr:{b088:'',b120:'',b142:'',stext:'',sanz:''},typAbdeckung:{begu:'',begur:'',sn:'',snpur:'',san:'',bph06:'',bph0:''},stunden:'',verkehr:{biv1:'',biv2:'',ang:''},schmutz:'',fotos:[],pdfs:[]},
-    {id:2,adresse:'Birkenweg 7',schacht:'S-2024-002',abdeckung:'Deckel locker',status:'fertig',ringe:{r4:'',r6:'',r8:'',r10:''},moertel:'',bohr:{b088:'',b120:'',b142:'',stext:'',sanz:''},typAbdeckung:{begu:'',begur:'',sn:'',snpur:'',san:'',bph06:'',bph0:''},stunden:'',verkehr:{biv1:'',biv2:'',ang:''},schmutz:'',fotos:[],pdfs:[]}
-  ]},
-  {id:2,kunde:'Bauer & Söhne',ort:'Wardenburg',standort:'wa',schaden:[
-    {id:3,adresse:'Am Kanal 3',schacht:'S-2024-003',abdeckung:'Undichtigkeit Zulauf',status:'zurueck',ringe:{r4:'',r6:'',r8:'',r10:''},moertel:'',bohr:{b088:'',b120:'',b142:'',stext:'',sanz:''},typAbdeckung:{begu:'',begur:'',sn:'',snpur:'',san:'',bph06:'',bph0:''},stunden:'',verkehr:{biv1:'',biv2:'',ang:''},schmutz:'',fotos:[],pdfs:[]}
-  ]},
-  {id:3,kunde:'Stadt Osnabrück',ort:'Osnabrück',standort:'os',schaden:[
-    {id:4,adresse:'Gartenweg 5',schacht:'S-2024-004',abdeckung:'Rissbildung DN600',status:'aktuell',ringe:{r4:'',r6:'',r8:'',r10:''},moertel:'',bohr:{b088:'',b120:'',b142:'',stext:'',sanz:''},typAbdeckung:{begu:'',begur:'',sn:'',snpur:'',san:'',bph06:'',bph0:''},stunden:'',verkehr:{biv1:'',biv2:'',ang:''},schmutz:'',fotos:[],pdfs:[]}
-  ]},
-];
+var _defaultBaustellen = [];
 var _fbReady = false;
 var _fbRef   = null;
 var _fbSuppressUpdate = false;
@@ -3013,9 +2918,6 @@ function confirmImport(){
 function downloadTemplate(){
   if(!window.XLSX){ alert('SheetJS nicht geladen.'); return; }
   const headers = HIBA_FIELDS.map(f=>f.label);
-  const example = ['Hauptstr. 12','S-2024-001','DN400 defekt','aktuell',
-    'Reprofilierung','2h Fräsen','vorhanden',
-    1,'','','','','1','','','','1','','','','','1','',''];
   const ws = XLSX.utils.aoa_to_sheet([headers, example]);
   ws['!cols'] = headers.map(()=>({wch:16}));
   const wb = XLSX.utils.book_new();
@@ -3084,7 +2986,6 @@ function mobUpdateUI(){
   if(backBtn)backBtn.className=isDeep?'show':'';
   if(homeBtn)homeBtn.style.color=isDeep?'var(--hiba-red)':'var(--text3)';
   var fab=document.getElementById('mob-fab'); if(fab)fab.className=(cv.type==='baustellen')?'show':'';
-  var pdfBtn=document.getElementById('btn-pdf-static'); if(pdfBtn)pdfBtn.style.display=(cv.type==='kunde'||cv.type==='kat')?'inline-block':'none';
   ['wa','os','import'].forEach(function(id){var el=document.getElementById('mtd-'+id);if(el)el.classList.remove('on');});
   if(cv.type==='baustellen'){var el=document.getElementById('mtd-'+(cv.standort||'wa'));if(el)el.classList.add('on');}
   var mtdBack=document.getElementById('mtd-back'); var mtdBackSep=document.getElementById('mtd-back-sep');
@@ -3100,115 +3001,12 @@ nav=function(id){mobMenuClose();mobCloseDrawer();_nv(id);};
 // ═══════════════════════════════════════════════════════
 // PDF EXPORT
 // ═══════════════════════════════════════════════════════
-var _pdfBId=null;
 function chk(id){var el=document.getElementById(id);return el&&el.checked;}
-function pdfSelAll(v){document.querySelectorAll('#modal-pdf-export input[type=checkbox]').forEach(function(c){c.checked=v;});}
-function openPdfExportModal(bId){_pdfBId=bId;var b=baustellen.find(function(x){return x.id===bId;});document.getElementById('pdf-export-project-name').textContent=b?b.kunde:'';document.getElementById('modal-pdf-export').classList.add('open');}
-function closePdfExportModal(){document.getElementById('modal-pdf-export').classList.remove('open');}
 
-function generatePdf(){
-  var bId=_pdfBId, b=baustellen.find(function(x){return x.id===bId;});
-  if(!b){alert('Projekt nicht gefunden.');return;}
-  var items=b.schaden.filter(function(s){return s.status==='fertig';});
-  if(!items.length){alert('Keine fertigen Schadensstellen vorhanden.');return;}
-  var A='font-family:Arial,sans-serif;', now=new Date().toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'});
 
-  function stBlock(label,obj,pairs){
-    if(!obj||typeof obj!=='object')obj={};
-    var filled=pairs.filter(function(p){var r=obj[p[0]];return r!==undefined&&r!==null&&r!==''&&r!=='0'&&r!==0;});
-    if(!filled.length)return '';
-    var s='<div style="margin-bottom:8px;"><div style="font-size:10px;font-weight:700;color:#CC0000;'+A+'border-bottom:1px solid #CC0000;padding-bottom:2px;margin-bottom:3px;">'+label+'</div><table style="border-collapse:collapse;width:100%;"><tr style="background:#CC0000;"><th style="padding:3px 8px;color:#fff;font-size:9px;border:1px solid #900;text-align:left;'+A+'">Bezeichnung</th><th style="padding:3px 8px;color:#fff;font-size:9px;border:1px solid #900;text-align:center;width:60px;'+A+'">Stückzahl</th></tr>';
-    filled.forEach(function(p,i){var v=String(obj[p[0]]);s+='<tr style="background:'+(i%2===0?'#fff':'#f5f5f5')+'"><td style="padding:3px 8px;border:1px solid #ddd;font-size:10px;'+A+'font-weight:600;color:#000;">'+p[1]+'</td><td style="padding:3px 8px;border:1px solid #ddd;font-size:10px;font-weight:700;text-align:center;'+A+'color:#CC0000;">'+v+'</td></tr>';});
-    s+='</table></div>';return s;
-  }
 
-  function xBlock(label,obj,pairs){
-    if(!obj||typeof obj!=='object')obj={};
-    // Zeige X für jeden Eintrag mit einem Wert (auch '1', '2' etc.)
-    var filled=pairs.filter(function(p){
-      var r=obj[p[0]];
-      return r!==undefined && r!==null && r!=='' && String(r)!=='0';
-    });
-    if(!filled.length)return '';
-    var s='<div style="margin-bottom:8px;"><div style="font-size:10px;font-weight:700;color:#CC0000;'+A+'border-bottom:1px solid #CC0000;padding-bottom:2px;margin-bottom:3px;">'+label+'</div><table style="border-collapse:collapse;width:100%;"><tr style="background:#CC0000;"><th style="padding:3px 8px;color:#fff;font-size:9px;border:1px solid #900;text-align:left;'+A+'">Bezeichnung</th><th style="padding:3px 8px;color:#fff;font-size:9px;border:1px solid #900;text-align:center;width:40px;'+A+'">✓</th></tr>';
-    filled.forEach(function(p,i){s+='<tr style="background:'+(i%2===0?'#fff':'#f5f5f5')+'"><td style="padding:3px 8px;border:1px solid #ddd;font-size:10px;'+A+'font-weight:600;color:#000;">'+p[1]+'</td><td style="padding:3px 8px;border:1px solid #ddd;font-size:10px;font-weight:700;text-align:center;'+A+'color:#3D8B1F;">✕</td></tr>';});
-    s+='</table></div>';return s;
-  }
 
-  var pages=items.map(function(item,idx){
-    var verk=(item.verkehr&&typeof item.verkehr==='object')?item.verkehr:{};
-    var bohr=(item.bohr&&typeof item.bohr==='object')?item.bohr:{};
-    var typ=(item.typAbdeckung&&typeof item.typAbdeckung==='object')?item.typAbdeckung:{};
-    var ring=(item.ringe&&typeof item.ringe==='object')?item.ringe:{};
-    var sos={moertel:item.moertel||'',stunden:item.stunden||'',schmutz:item.schmutz||''};
 
-    var page='<div style="'+A+'color:#000;padding:0;'+(idx>0?'page-break-before:always;':'')+'">';
-    // Header
-    page+='<div style="display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid #CC0000;padding-bottom:8px;margin-bottom:14px;"><div><div style="font-size:22px;font-weight:900;'+A+'color:#000;">'+b.kunde+'</div><div style="font-size:11px;color:#555;margin-top:2px;'+A+'">'+(b.ort||b.standort)+' · '+now+'</div></div><div style="text-align:right;"><div style="font-size:13px;font-weight:900;color:#CC0000;'+A+'">HIBA</div><div style="font-size:9px;color:#555;'+A+'">Schachtsanierung GmbH</div></div></div>';
-    // Adresse + Status
-    page+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;"><div style="font-size:16px;font-weight:700;'+A+'color:#000;">📍 '+(item.adresse||'–')+'</div><div style="background:#EAF3DE;color:#3D8B1F;font-weight:700;font-size:11px;padding:4px 12px;border-radius:20px;'+A+'">✓ Fertig</div></div>';
-    // Grunddaten
-    var gd=[];
-    if(chk('pf-schacht')&&item.schacht)    gd.push(['Schachtnummer',item.schacht]);
-    if(chk('pf-abdeckung')&&item.abdeckung) gd.push(['Schachtabdeckung',item.abdeckung]);
-    if(gd.length){
-      page+='<table style="border-collapse:collapse;width:100%;margin-bottom:14px;"><tr style="background:#CC0000;"><th style="padding:5px 10px;color:#fff;font-size:10px;border:1px solid #900;text-align:left;'+A+'width:35%;">Feld</th><th style="padding:5px 10px;color:#fff;font-size:10px;border:1px solid #900;text-align:left;'+A+'">Wert</th></tr>';
-      gd.forEach(function(r,i){page+='<tr style="background:'+(i%2===0?'#fff':'#f5f5f5')+'"><td style="padding:5px 10px;border:1px solid #ddd;font-size:11px;font-weight:600;'+A+'color:#000;">'+r[0]+'</td><td style="padding:5px 10px;border:1px solid #ddd;font-size:11px;'+A+'color:#000;">'+r[1]+'</td></tr>';});
-      page+='</table>';
-    }
-    // Stückzahlen
-    var blocks='';
-    if(chk('pf-verkehr')) blocks+=xBlock('Verkehrssicherung',verk,[['biv1','B IV/1'],['biv2','B IV/2'],['ang','Laut Angebot']]);
-    if(chk('pf-bohr')){
-      var bohrFixed = xBlock('Bohrdurchmesser', bohr, [['b088','0,88 m'],['b120','1,20 m'],['b142','1,42 m']]);
-      var bohrSons  = bohr.stext ? '<div style="margin-bottom:8px;"><div style="font-size:10px;font-weight:700;color:#CC0000;font-family:Arial,sans-serif;border-bottom:1px solid #CC0000;padding-bottom:2px;margin-bottom:3px;">Sonstige Größe</div><div style="font-size:11px;font-family:Arial,sans-serif;color:#000;padding:4px 0;">'+bohr.stext+'</div></div>' : '';
-      blocks += bohrFixed + bohrSons;
-    }
-    if(chk('pf-typ'))     blocks+=xBlock('Typ Schachtabdeckung',typ,[['begu','BEGU'],['begur','BEGU PUR'],['sn','SN'],['snpur','SN PUR'],['san','Sanierungsrahmen'],['bph06','Budaplan H06'],['bph0','Budaplan H0']]);
-    if(chk('pf-ringe'))   blocks+=stBlock('Ringe',ring,[['r4','4er Ring'],['r6','6er Ring'],['r8','8er Ring'],['r10','10er Ring']]);
-    if(chk('pf-moertel')||chk('pf-stunden')||chk('pf-schmutz')){
-      var sosPairs=[];
-      if(chk('pf-moertel'))sosPairs.push(['moertel','Mörtel']);
-      if(chk('pf-stunden'))sosPairs.push(['stunden','Stundenlohnarbeiten']);
-      if(chk('pf-schmutz'))sosPairs.push(['schmutz','Schmutzfänger']);
-      blocks+=stBlock('Sonstiges',sos,sosPairs);
-    }
-    if(blocks){
-      page+='<div style="font-size:12px;font-weight:700;'+A+'color:#000;margin-bottom:10px;border-bottom:2px solid #000;padding-bottom:4px;">Details</div>';
-      page+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">';
-      [xBlock('Verkehrssicherung',verk,[['biv1','B IV/1'],['biv2','B IV/2'],['ang','Laut Angebot']]),
-       xBlock('Bohrdurchmesser',bohr,[['b088','0,88 m'],['b120','1,20 m'],['b142','1,42 m']]),
-       bohr.stext?'<div style="margin-bottom:8px;"><div style="font-size:10px;font-weight:700;color:#CC0000;font-family:Arial,sans-serif;border-bottom:1px solid #CC0000;padding-bottom:2px;margin-bottom:3px;">Sonstige Größe</div><div style="font-size:11px;font-family:Arial,sans-serif;color:#000;padding:4px 0;">'+bohr.stext+'</div></div>':null,
-       xBlock('Typ Schachtabdeckung',typ,[['begu','BEGU'],['begur','BEGU PUR'],['sn','SN'],['snpur','SN PUR'],['san','Sanierungsrahmen'],['bph06','Budaplan H06'],['bph0','Budaplan H0']]),
-       stBlock('Ringe',ring,[['r4','4er Ring'],['r6','6er Ring'],['r8','8er Ring'],['r10','10er Ring']]),
-       stBlock('Sonstiges',sos,[['moertel','Mörtel'],['stunden','Stundenlohnarbeiten'],['schmutz','Schmutzfänger']])
-      ].filter(Boolean).forEach(function(b){if(b)page+='<div>'+b+'</div>';});
-      page+='</div>';
-    }
-    // Fotos
-    var fotos=item.fotos||[];
-    if(chk('pf-fotos')&&fotos.length){
-      page+='<div style="font-size:12px;font-weight:700;'+A+'color:#000;margin-bottom:8px;border-bottom:2px solid #000;padding-bottom:4px;">Fotos ('+fotos.length+')</div><div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;">';
-      fotos.forEach(function(f){page+='<img src="'+f.data+'" style="width:150px;height:112px;object-fit:cover;border-radius:5px;border:1px solid #ddd;"/>';});
-      page+='</div>';
-    }
-    // Dokumente
-    var pdfs2=item.pdfs||[];
-    if(chk('pf-pdfs')&&pdfs2.length){
-      page+='<div style="font-size:12px;font-weight:700;'+A+'color:#000;margin-bottom:8px;border-bottom:2px solid #000;padding-bottom:4px;">Dokumente ('+pdfs2.length+')</div><div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;">';
-      pdfs2.forEach(function(p){page+='<div style="display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;width:72px;height:82px;border:1px solid #ddd;border-radius:5px;background:#fff3f3;padding:5px;"><svg viewBox="0 0 24 24" fill="none" stroke="#CC0000" stroke-width="1.5" width="24" height="24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg><div style="font-size:8px;text-align:center;word-break:break-all;max-width:64px;'+A+'color:#333;">'+(p.name||'Dok.')+'</div></div>';});
-      page+='</div>';
-    }
-    page+='</div>';
-    return page;
-  });
-
-  var area=document.getElementById('pdf-print-area');
-  area.innerHTML=pages.join('');
-  area.style.display='block';
-  closePdfExportModal();
-  setTimeout(function(){window.print();setTimeout(function(){area.style.display='none';},1500);},300);
-}
 
 // PWA
 (function(){

@@ -1628,8 +1628,27 @@ function saveData(){
     clearTimeout(_saveTimer);
     _saveTimer = setTimeout(function(){
       _fbSuppressUpdate = true;
+      // Fotos separat speichern (zu groß für einen Datensatz)
+      var baustellenOhneFotos = baustellen.map(function(b){
+        return Object.assign({}, b, {
+          schaden: b.schaden.map(function(s){
+            return Object.assign({}, s, {fotos: [], pdfs: []});
+          })
+        });
+      });
+      // Fotos+PDFs separat pro Schadensstelle
+      baustellen.forEach(function(b){
+        b.schaden.forEach(function(s){
+          if((s.fotos&&s.fotos.length)||(s.pdfs&&s.pdfs.length)){
+            firebase.database().ref('hiba_media/'+b.id+'/'+s.id).set({
+              fotos: JSON.stringify(s.fotos||[]),
+              pdfs:  JSON.stringify(s.pdfs||[])
+            });
+          }
+        });
+      });
       _fbRef.set({
-        baustellen: JSON.stringify(baustellen),
+        baustellen: JSON.stringify(baustellenOhneFotos),
         nextBId: nextBId,
         nextSId: nextSId,
         updated: Date.now()
@@ -1681,13 +1700,27 @@ function initFirebase(){
       if(!data || !data.baustellen) return;
       try {
         var incoming = JSON.parse(data.baustellen);
-        baustellen = incoming;
-        if(data.nextBId) nextBId = parseInt(data.nextBId);
-        if(data.nextSId) nextSId = parseInt(data.nextSId);
-        migrateData();
-        renderSidebar();
-        renderMain();
-        setSyncBadge('✓ Synchronisiert', '#EAF3DE', '#255E10');
+        // Fotos+PDFs aus separatem Pfad laden
+        firebase.database().ref('hiba_media').once('value', function(mediaSnap){
+          var media = mediaSnap.val() || {};
+          incoming.forEach(function(b){
+            var bMedia = media[b.id] || {};
+            b.schaden.forEach(function(s){
+              var sMedia = bMedia[s.id];
+              if(sMedia){
+                try { s.fotos = JSON.parse(sMedia.fotos||'[]'); } catch(e){ s.fotos=[]; }
+                try { s.pdfs  = JSON.parse(sMedia.pdfs ||'[]'); } catch(e){ s.pdfs=[]; }
+              }
+            });
+          });
+          baustellen = incoming;
+          if(data.nextBId) nextBId = parseInt(data.nextBId);
+          if(data.nextSId) nextSId = parseInt(data.nextSId);
+          migrateData();
+          renderSidebar();
+          renderMain();
+          setSyncBadge('✓ Synchronisiert', '#EAF3DE', '#255E10');
+        });
       } catch(e){ console.warn('Sync-Fehler:', e); }
     });
     _fbReady = true;

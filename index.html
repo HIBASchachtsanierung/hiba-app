@@ -1791,8 +1791,8 @@ function renderMain(){
     btn.textContent='+ Neue Schadensstelle';
     btn.style.display='inline-block';
     btn.onclick=function(){ document.getElementById('f-status').value=curKat; openSchadenModal(); };
-    cont.innerHTML='<div class="table-wrap"><table class="data-table"><thead><tr><th>Adresse</th><th>Schachtnr.</th><th>Schachtabdeckung</th><th>Status</th></tr></thead><tbody>'
-      +(items.length===0?'<tr><td colspan="4"><div class="empty-state"></div></td></tr>'
+    cont.innerHTML='<div class="table-wrap"><table class="data-table"><thead><tr><th>Adresse</th><th>Schachtnr.</th><th>Schachtabdeckung</th><th>Verkehr</th><th>Status</th></tr></thead><tbody>'
+      +(items.length===0?'<tr><td colspan="5"><div class="empty-state"></div></td></tr>'
         :items.map(item=>{
           const dv = i => item[i]||'';
           const hasDetail = ['ringe','moertel','bohr','typAbdeckung','stunden','verkehr','schmutz'].some(k=>item[k]);
@@ -1805,6 +1805,9 @@ function renderMain(){
               ${(()=>{const v=item.verkehr&&typeof item.verkehr==='object'?item.verkehr:{};const tags=[];if(v.biv1&&v.biv1!=='0')tags.push('<span style="background:#EAF3DE;color:#3D8B1F;padding:1px 5px;border-radius:4px;font-size:10px;font-weight:700;">✕ B IV/1</span>');if(v.biv2&&v.biv2!=='0')tags.push('<span style="background:#EAF3DE;color:#3D8B1F;padding:1px 5px;border-radius:4px;font-size:10px;font-weight:700;">✕ B IV/2</span>');if(v.ang&&v.ang!=='0')tags.push('<span style="background:#EAF3DE;color:#3D8B1F;padding:1px 5px;border-radius:4px;font-size:10px;font-weight:700;">✕ Ang.</span>');return tags.join(' ')||'–';})()}
             </td>
 
+            <td style="white-space:nowrap;">
+              ${(()=>{const v=item.verkehr&&typeof item.verkehr==='object'?item.verkehr:{};const tags=[];if(v.biv1&&v.biv1!=='0')tags.push('<span style="background:#EAF3DE;color:#3D8B1F;padding:1px 5px;border-radius:4px;font-size:10px;font-weight:700;">✕ B IV/1</span>');if(v.biv2&&v.biv2!=='0')tags.push('<span style="background:#EAF3DE;color:#3D8B1F;padding:1px 5px;border-radius:4px;font-size:10px;font-weight:700;">✕ B IV/2</span>');if(v.ang&&v.ang!=='0')tags.push('<span style="background:#EAF3DE;color:#3D8B1F;padding:1px 5px;border-radius:4px;font-size:10px;font-weight:700;">✕ Ang.</span>');return tags.join(' ')||'–';})()}
+            </td>
             <td style="text-align:center;">
               <span style="display:inline-block;width:12px;height:12px;border-radius:50%;
                 background:${item.status==='aktuell'?'#CC0000':item.status==='fertig'?'#3D8B1F':item.status==='zurueck'?'#BA7517':'#185FA5'};
@@ -1819,9 +1822,23 @@ function renderMain(){
             </td>
           </tr>
           <tr class="detail-row" id="dr-${item.id}">
-            <td colspan="4">
+            <td colspan="5">
               <div class="detail-inner" id="di-${item.id}">
                 <div class="detail-grid">
+
+                  <!-- VERKEHRSSICHERUNG -->
+                  <div class="detail-field" style="grid-column:1/-1">
+                    <div class="detail-field-label">Verkehrssicherung</div>
+                    <div style="display:flex;flex-direction:column;gap:3px;margin-top:3px;">
+                      ${[['B IV/1','biv1'],['B IV/2','biv2'],['Laut Angebot','ang']].map(([lbl,key])=>`
+                        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:11px;font-family:Arial,sans-serif;">
+                          <input type="checkbox" style="width:14px;height:14px;accent-color:#CC0000;cursor:pointer;"
+                            ${(item.verkehr&&typeof item.verkehr==='object'&&item.verkehr[key]&&item.verkehr[key]!=='0')?'checked':''}
+                            onchange="saveSubField(${b.id},${item.id},'verkehr','${key}',this.checked?'1':'')">
+                          ${lbl}
+                        </label>`).join('')}
+                    </div>
+                  </div>
 
                   <!-- TYP SCHACHTABDECKUNG -->
                   <div class="detail-field" style="grid-column:1/-1">

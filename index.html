@@ -1828,17 +1828,40 @@ function renderMain(){
               <div class="detail-inner" id="di-${item.id}">
                 <div class="detail-grid">
 
-                  <!-- VERKEHRSSICHERUNG -->
+                  <!-- VERKEHRSSICHERUNG + BOHRDURCHMESSER nebeneinander -->
                   <div class="detail-field" style="grid-column:1/-1">
-                    <div class="detail-field-label">Verkehrssicherung</div>
-                    <div style="display:flex;flex-direction:column;gap:3px;margin-top:3px;">
-                      ${[['B IV/1','biv1'],['B IV/2','biv2'],['Laut Angebot','ang']].map(([lbl,key])=>`
-                        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:11px;font-family:Arial,sans-serif;">
-                          <input type="checkbox" style="width:14px;height:14px;accent-color:#CC0000;cursor:pointer;"
-                            ${(item.verkehr&&typeof item.verkehr==='object'&&item.verkehr[key]&&item.verkehr[key]!=='0')?'checked':''}
-                            onchange="saveSubField(${b.id},${item.id},'verkehr','${key}',this.checked?'1':'')">
-                          ${lbl}
-                        </label>`).join('')}
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                      <div>
+                        <div class="detail-field-label">Verkehrssicherung</div>
+                        <div style="display:flex;flex-direction:column;gap:3px;margin-top:3px;">
+                          ${[['B IV/1','biv1'],['B IV/2','biv2'],['Laut Angebot','ang']].map(([lbl,key])=>`
+                            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:11px;font-family:Arial,sans-serif;">
+                              <input type="checkbox" style="width:14px;height:14px;accent-color:#CC0000;cursor:pointer;"
+                                ${(item.verkehr&&typeof item.verkehr==='object'&&item.verkehr[key]&&item.verkehr[key]!=='0')?'checked':''}
+                                onchange="saveSubField(${b.id},${item.id},'verkehr','${key}',this.checked?'1':'')">
+                              ${lbl}
+                            </label>`).join('')}
+                        </div>
+                      </div>
+                      <div>
+                        <div class="detail-field-label">Bohrdurchmesser</div>
+                        <div style="display:flex;flex-direction:column;gap:3px;margin-top:3px;">
+                          ${[['0,88 m','b088'],['1,20 m','b120'],['1,42 m','b142']].map(([lbl,key])=>`
+                            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:11px;font-family:Arial,sans-serif;">
+                              <input type="checkbox" style="width:14px;height:14px;accent-color:#CC0000;cursor:pointer;"
+                                ${(item.bohr&&typeof item.bohr==='object'&&item.bohr[key]&&item.bohr[key]!=='0')?'checked':''}
+                                onchange="saveSubField(${b.id},${item.id},'bohr','${key}',this.checked?'1':'')">
+                              ${lbl}
+                            </label>`).join('')}
+                          <div style="padding-top:4px;border-top:1px solid var(--border);margin-top:2px;">
+                            <input type="text" placeholder="Sonstige Größe"
+                                   style="width:100%;font-size:11px;padding:3px 6px;border:1px solid var(--border);border-radius:5px;font-family:Arial,sans-serif;"
+                                   value="${(item.bohr&&item.bohr.stext)||''}"
+                                   oninput="saveSubField(${b.id},${item.id},'bohr','stext',this.value)"
+                                   onblur="saveSubField(${b.id},${item.id},'bohr','stext',this.value)">
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
 

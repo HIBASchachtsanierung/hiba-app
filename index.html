@@ -1743,6 +1743,8 @@ function renderSidebar(){
 // ===== NAV =====
 function nav(id){
   if(id==='import'){ openImportModal(); return; }
+  // Browser-History für Zurück-Button
+  history.pushState({id:id}, '', '#' + id);
   if(id.startsWith('bs-')){cv={type:'baustellen',standort:id.slice(3)};}
   else if(id.startsWith('k-')){curBId=parseInt(id.slice(2));curKat=null;cv={type:'kunde'};}
   else if(id.startsWith('kat-')){const p=id.slice(4).split('-');curBId=parseInt(p[0]);curKat=p.slice(1).join('-');cv={type:'kat'};}
@@ -2971,6 +2973,23 @@ function chk(id){var el=document.getElementById(id);return el&&el.checked;}
 
 setTimeout(mobUpdateUI,80);
 
+
+
+// Browser Zurück-Button → App Zurück
+window.addEventListener('popstate', function(e){
+  if(e.state && e.state.id){
+    // Nav without pushing new state
+    var id = e.state.id;
+    if(id.startsWith('bs-')){cv={type:'baustellen',standort:id.slice(3)};curBId=null;curKat=null;}
+    else if(id.startsWith('k-')){curBId=parseInt(id.slice(2));cv={type:'kunde'};}
+    else if(id.startsWith('kat-')){var p=id.slice(4).split('-');curBId=parseInt(p[0]);curKat=p[1];cv={type:'kat'};}
+    renderSidebar();renderMain();
+  } else {
+    mobBack();
+  }
+});
+// Initial state
+history.replaceState({id:'bs-wa'}, '', '#bs-wa');
 
 </script>
 <!-- Import Modal -->

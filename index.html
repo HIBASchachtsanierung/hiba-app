@@ -1562,6 +1562,8 @@ function initFirebase(){
       var data = snapshot.val();
       if(!data || !data.baustellen) return;
       try {
+        // Navigationszustand merken
+        var _cv=JSON.parse(JSON.stringify(cv)), _bId=curBId, _kat=curKat;
         var incoming = JSON.parse(data.baustellen);
         // Fotos+PDFs aus separatem Pfad laden
         firebase.database().ref('hiba_media').once('value', function(mediaSnap){
@@ -1580,8 +1582,9 @@ function initFirebase(){
           if(data.nextBId) nextBId = parseInt(data.nextBId);
           if(data.nextSId) nextSId = parseInt(data.nextSId);
           migrateData();
-          renderSidebar();
-          renderMain();
+          cv=_cv; curBId=_bId; curKat=_kat;
+          if(typeof renderSidebar==='function') renderSidebar();
+          if(typeof renderMain==='function') renderMain();
           setSyncBadge('✓ Synchronisiert', '#EAF3DE', '#255E10');
         });
       } catch(e){ console.warn('Sync-Fehler:', e); }
@@ -1744,7 +1747,7 @@ function renderSidebar(){
 function nav(id){
   if(id==='import'){ openImportModal(); return; }
   // Browser-History für Zurück-Button
-  history.pushState({id:id}, '', '#' + id);
+  try { history.pushState({id:id}, '', '#' + id); } catch(e){}
   if(id.startsWith('bs-')){cv={type:'baustellen',standort:id.slice(3)};}
   else if(id.startsWith('k-')){curBId=parseInt(id.slice(2));curKat=null;cv={type:'kunde'};}
   else if(id.startsWith('kat-')){const p=id.slice(4).split('-');curBId=parseInt(p[0]);curKat=p.slice(1).join('-');cv={type:'kat'};}
@@ -1969,6 +1972,12 @@ function renderMain(){
                     </div>
                   </div>
 
+                </div>
+                <div style="display:flex;justify-content:flex-end;padding:6px 4px 2px;">
+                  <button onclick="event.stopPropagation();delSchaden(${b.id},${item.id})"
+                    style="padding:4px 12px;background:#CC0000;color:#fff;border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:Arial,sans-serif;">
+                    🗑 Löschen
+                  </button>
                 </div>
               </div>
             </td>

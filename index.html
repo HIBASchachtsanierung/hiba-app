@@ -60,8 +60,8 @@
     .btn-neu:hover { background: #990000; }
     .table-wrap { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
     .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .data-table th { padding: 7px 10px; text-align: left; background: var(--hiba-red); font-weight: 700; color: #fff !important; font-size: 11px; border-bottom: 2px solid var(--hiba-red-dark); text-transform: uppercase; letter-spacing: 0.04em; }
-    .data-table td { padding: 10px 12px; color: var(--text); border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .data-table th { padding: 4px 7px; text-align: left; background: var(--hiba-red); font-weight: 700; color: #fff !important; font-size: 11px; border-bottom: 2px solid var(--hiba-red-dark); text-transform: uppercase; letter-spacing: 0.04em; }
+    .data-table td { padding: 5px 7px; color: var(--text); border-bottom: 1px solid var(--border); vertical-align: middle; }
     .data-table tr:last-child td { border-bottom: none; }
     .data-table tr:hover { background: var(--bg2); }
     .empty-state { text-align: center; padding: 32px; color: var(--text2); font-size: 13px; }
@@ -164,7 +164,7 @@
     .ringe-header.open .rh-arrow { transform:rotate(90deg); }
     .ringe-body { max-height:0; overflow:hidden; transition:max-height 0.28s ease; }
     .ringe-body.open { max-height:300px; }
-    .ringe-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:5px; padding:6px; border-top:1px solid var(--border); }
+    .ringe-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:3px; padding:4px; border-top:1px solid var(--border); }
     .ringe-item { display:flex; flex-direction:column; align-items:center; gap:5px; }
     .ringe-label { font-size:10px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:0.05em; text-align:center; word-break:break-word; hyphens:auto; max-width:90px; line-height:1.3; }
     .ringe-input { padding:8px 6px; border-radius:6px; border:1px solid var(--border);
@@ -507,7 +507,7 @@
 
   /* Compact detail view */
   .detail-inner { font-size:12px; }
-  .detail-field { padding:5px 6px !important; }
+  .detail-field { padding:3px 5px !important; }
   .detail-grid { gap:5px !important; padding:6px !important; }
   .ringe-body { padding:0 !important; }
 
@@ -520,9 +520,9 @@
   .ringe-header { line-height: 1.2; }
   .detail-inner label { line-height: 1.2; min-height: unset !important; }
   .sidebar-item { min-height: unset !important; padding: 6px 8px !important; }
-  .kunden-card { padding: 10px !important; }
+  .kunden-card { padding: 7px !important; }
   .kunden-card .kc-title { margin-bottom: 2px; }
-  .kat-card { padding: 10px !important; }
+  .kat-card { padding: 7px !important; }
 
 
   /* Force black text everywhere */
@@ -577,6 +577,20 @@
     }
   }
 
+
+  /* KOMPAKT */
+  .data-table th { padding: 2px 4px !important; font-size: 10px !important; line-height: 1.1 !important; }
+  .data-table td { padding: 2px 4px !important; font-size: 10px !important; line-height: 1.1 !important; }
+  .status-select { font-size: 10px !important; padding: 2px 4px !important; }
+  .detail-grid { gap: 3px !important; padding: 4px !important; }
+  .detail-field { padding: 2px 4px !important; }
+  .detail-field-label { font-size: 9px !important; margin-bottom: 1px !important; }
+  .ringe-header { padding: 3px 8px !important; font-size: 10px !important; }
+  .ringe-grid { gap: 3px !important; padding: 3px !important; }
+  .ringe-input { height: 26px !important; font-size: 12px !important; }
+  .ringe-label { font-size: 8px !important; }
+  .detail-inner label { line-height: 1.2 !important; min-height: unset !important; gap: 4px !important; font-size: 11px !important; }
+  .detail-inner input[type="checkbox"] { width: 13px !important; height: 13px !important; }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -806,8 +820,8 @@
     .btn-neu:hover { background: #990000; }
     .table-wrap { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
     .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .data-table th { padding: 7px 10px; text-align: left; background: var(--hiba-red); font-weight: 700; color: #fff !important; font-size: 11px; border-bottom: 2px solid var(--hiba-red-dark); text-transform: uppercase; letter-spacing: 0.04em; }
-    .data-table td { padding: 10px 12px; color: var(--text); border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .data-table th { padding: 4px 7px; text-align: left; background: var(--hiba-red); font-weight: 700; color: #fff !important; font-size: 11px; border-bottom: 2px solid var(--hiba-red-dark); text-transform: uppercase; letter-spacing: 0.04em; }
+    .data-table td { padding: 5px 7px; color: var(--text); border-bottom: 1px solid var(--border); vertical-align: middle; }
     .data-table tr:last-child td { border-bottom: none; }
     .data-table tr:hover { background: var(--bg2); }
     .empty-state { text-align: center; padding: 32px; color: var(--text2); font-size: 13px; }
@@ -910,7 +924,7 @@
     .ringe-header.open .rh-arrow { transform:rotate(90deg); }
     .ringe-body { max-height:0; overflow:hidden; transition:max-height 0.28s ease; }
     .ringe-body.open { max-height:300px; }
-    .ringe-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:5px; padding:6px; border-top:1px solid var(--border); }
+    .ringe-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:3px; padding:4px; border-top:1px solid var(--border); }
     .ringe-item { display:flex; flex-direction:column; align-items:center; gap:5px; }
     .ringe-label { font-size:10px; font-weight:700; color:var(--text3); text-transform:uppercase; letter-spacing:0.05em; text-align:center; word-break:break-word; hyphens:auto; max-width:90px; line-height:1.3; }
     .ringe-input { padding:8px 6px; border-radius:6px; border:1px solid var(--border);
@@ -1635,9 +1649,8 @@ function openPreview(bId){
       listHtml+=`<div class="preview-list-item">
         <div class="pli-top">
           <div class="pli-addr">${item.adresse||''}</div>
-          <div class="pli-badge ${cat.bgClass}">${cat.label.split(' ')[0]}</div>
         </div>
-        <div class="pli-sub">${item.schacht} · ${item.abdeckung}</div>
+        <div class="pli-sub">${item.schacht}</div>
       </div>`;
     });
     listHtml+=`</div>`;
@@ -1791,8 +1804,8 @@ function renderMain(){
     btn.textContent='+ Neue Schadensstelle';
     btn.style.display='inline-block';
     btn.onclick=function(){ document.getElementById('f-status').value=curKat; openSchadenModal(); };
-    cont.innerHTML='<div class="table-wrap"><table class="data-table"><thead><tr><th>Adresse</th><th>Schachtnr.</th><th>Schachtabdeckung</th><th>Verkehr</th><th>Status</th></tr></thead><tbody>'
-      +(items.length===0?'<tr><td colspan="5"><div class="empty-state"></div></td></tr>'
+    cont.innerHTML='<div class="table-wrap"><table class="data-table"><thead><tr><th>Straße</th><th>Schachtnr.</th><th>Schachtabdeckung</th><th>Status</th></tr></thead><tbody>'
+      +(items.length===0?'<tr><td colspan="4"><div class="empty-state"></div></td></tr>'
         :items.map(item=>{
           const dv = i => item[i]||'';
           const hasDetail = ['ringe','moertel','bohr','typAbdeckung','stunden','verkehr','schmutz'].some(k=>item[k]);
@@ -1801,13 +1814,6 @@ function renderMain(){
             <td>${item.adresse||''}</td>
             <td>${item.schacht}</td>
             <td>${item.abdeckung}</td>
-            <td style="white-space:nowrap;font-size:11px;">
-              ${(()=>{const v=item.verkehr&&typeof item.verkehr==='object'?item.verkehr:{};const tags=[];if(v.biv1&&v.biv1!=='0')tags.push('<span style="background:#EAF3DE;color:#3D8B1F;padding:1px 5px;border-radius:4px;font-size:10px;font-weight:700;">✕ B IV/1</span>');if(v.biv2&&v.biv2!=='0')tags.push('<span style="background:#EAF3DE;color:#3D8B1F;padding:1px 5px;border-radius:4px;font-size:10px;font-weight:700;">✕ B IV/2</span>');if(v.ang&&v.ang!=='0')tags.push('<span style="background:#EAF3DE;color:#3D8B1F;padding:1px 5px;border-radius:4px;font-size:10px;font-weight:700;">✕ Ang.</span>');return tags.join(' ')||'–';})()}
-            </td>
-
-            <td style="white-space:nowrap;">
-              ${(()=>{const v=item.verkehr&&typeof item.verkehr==='object'?item.verkehr:{};const tags=[];if(v.biv1&&v.biv1!=='0')tags.push('<span style="background:#EAF3DE;color:#3D8B1F;padding:1px 5px;border-radius:4px;font-size:10px;font-weight:700;">✕ B IV/1</span>');if(v.biv2&&v.biv2!=='0')tags.push('<span style="background:#EAF3DE;color:#3D8B1F;padding:1px 5px;border-radius:4px;font-size:10px;font-weight:700;">✕ B IV/2</span>');if(v.ang&&v.ang!=='0')tags.push('<span style="background:#EAF3DE;color:#3D8B1F;padding:1px 5px;border-radius:4px;font-size:10px;font-weight:700;">✕ Ang.</span>');return tags.join(' ')||'–';})()}
-            </td>
             <td onclick="event.stopPropagation()">
               <select class="status-select status-${item.status}" onchange="changeStatus(${b.id},${item.id},this.value,this)" style="font-size:11px;padding:3px 5px;border-radius:14px;border:none;font-weight:700;cursor:pointer;">
                 <option value="aktuell"${item.status==='aktuell'?' selected':''}>Aktuell</option>
@@ -1816,12 +1822,9 @@ function renderMain(){
                 <option value="abger"${item.status==='abger'?' selected':''}>Abgerechnet</option>
               </select>
             </td>
-            <td style="white-space:nowrap;">
-              <button class="btn-del" style="margin-left:4px;" onclick="delSchaden(${b.id},${item.id})">Löschen</button>
-            </td>
           </tr>
           <tr class="detail-row" id="dr-${item.id}">
-            <td colspan="5">
+            <td colspan="4">
               <div class="detail-inner" id="di-${item.id}">
                 <div class="detail-grid">
 
@@ -2811,7 +2814,7 @@ function renderImportPreview(){
     ${err>0?`<div class="import-sum-box import-sum-err">⚠ ${err} fehlerhaft</div>`:''}`;
 
   document.getElementById('import-thead').innerHTML =
-    '<th>#</th><th>Adresse</th><th>Schachtnr.</th><th>Abdeckung</th><th>Status</th><th>Hinweis</th>';
+    '<th>#</th><th>Straße</th><th>Schachtnr.</th><th>Abdeckung</th><th>Hinweis</th>';
 
   document.getElementById('import-tbody').innerHTML = importRows.map((r,i)=>`
     <tr class="${r.ok?'import-row-ok':'import-row-err'}">
